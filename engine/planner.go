@@ -276,11 +276,26 @@ func (p *planner) match(stage *drone.Stage) bool {
 		labelMatch = checkLabels(p.labels, stage.Labels)
 	}
 
-	return stage.OS == p.os &&
+	matches := stage.OS == p.os &&
 		stage.Arch == p.arch &&
 		stage.Variant == p.version &&
 		stage.Kernel == p.kernel &&
 		labelMatch
+
+	logger.Default.
+		WithField("stage-os", stage.OS).
+		WithField("stage-arch", stage.Arch).
+		WithField("stage-variant", stage.Variant).
+		WithField("stage-kernel", stage.Kernel).
+		WithField("stage-version", stage.Version).
+		WithField("planner-os", p.os).
+		WithField("planner-arch", p.arch).
+		WithField("planner-version", p.version).
+		WithField("planner-kernel", p.kernel).
+		WithField("matches", matches).
+		Debug("finding match for stage")
+
+	return matches
 }
 
 func checkLabels(a, b map[string]string) bool {
