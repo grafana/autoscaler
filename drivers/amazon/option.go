@@ -79,9 +79,9 @@ func WithSSHKey(key string) Option {
 }
 
 // WithSubnet returns an option to set the subnet id.
-func WithSubnet(id string) Option {
+func WithSubnets(ids []string) Option {
 	return func(p *provider) {
-		p.subnet = id
+		p.subnets = ids
 	}
 }
 
